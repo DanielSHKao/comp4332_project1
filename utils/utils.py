@@ -1,4 +1,8 @@
 import pandas as pd
+import nltk
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords as sw
+import numpy as np
 
 def load_data(split_name='train', columns=['text', 'stars'], folder='./../data'):
     '''
@@ -18,12 +22,6 @@ def load_data(split_name='train', columns=['text', 'stars'], folder='./../data')
         print(f"Failed loading specified columns... Returning all columns from the {split_name} split")
         df = pd.read_csv(f'{folder}/{split_name}.csv')
         return df
-
-import nltk
-from nltk.stem import PorterStemmer
-from nltk.corpus import stopwords
-stopwords = set(stopwords.words('english'))
-ps = PorterStemmer()
 
 def lower(s):
     """
@@ -66,7 +64,7 @@ def stem(tokens):
     # for token in tokens:
     #     results.append(ps.stem(token))
     # return results
-
+    ps = PorterStemmer()
     return [ps.stem(token) for token in tokens]
 
 def n_gram(tokens, n=1):
@@ -101,10 +99,8 @@ def filter_stopwords(tokens):
     #     if token not in stopwords and not token.isnumeric():
     #         results.append(token)
     # return results
-
+    stopwords = set(sw.words('english'))
     return [token for token in tokens if token not in stopwords and not token.isnumeric()]
-
-import numpy as np
 
 def get_onehot_vector(feats, feats_dict):
     """
