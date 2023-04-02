@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 
 from data.data import CommentDataset
+import random
 
 class CommentDataModule(pl.LightningDataModule):
     def __init__(self, data_dir, batch_size, num_workers, columns=['text','stars'], **kwargs):
@@ -21,11 +22,9 @@ class CommentDataModule(pl.LightningDataModule):
         pass
     
     def train_dataloader(self):
-        return DataLoader(self.train_set, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
-
+        return DataLoader(self.train_set, batch_size=self.batch_size, num_workers=self.num_workers, shuffle= True, pin_memory=True)
     def val_dataloader(self):
-        return DataLoader(self.val_set, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
-
+        return DataLoader(self.val_set, batch_size=self.batch_size, num_workers=self.num_workers, shuffle= True, pin_memory=True)
     def test_dataloader(self):
         return DataLoader(self.test_set, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
 
