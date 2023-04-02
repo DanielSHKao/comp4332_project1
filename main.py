@@ -25,4 +25,4 @@ trainer = Trainer(
 
 print("Starting training")
 trainer.fit(model, datamodule)
-trainer.test(model, datamodule=datamodule)
+trainer.test(model, datamodule)
