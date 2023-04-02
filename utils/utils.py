@@ -3,7 +3,7 @@ import nltk
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords as sw
 import numpy as np
-
+import spacy
 def load_data(split_name='train', columns=['text', 'stars'], folder='./../data'):
     '''
         "split_name" may be set as 'train', 'valid' or 'test' to load the corresponding dataset.
@@ -117,3 +117,12 @@ def get_onehot_vector(feats, feats_dict):
             # set the corresponding element as 1
             vector[f_idx] = 1
     return vector
+
+class Embedder:
+    def __init__(self,embedder):
+        self.embedder=spacy.load(embedder)
+    def word_embedding(self,tokens):
+        result = list()
+        for token in tokens:
+            result.append(self.embedder(token).vector)
+        return result
