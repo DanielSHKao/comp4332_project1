@@ -13,7 +13,7 @@ from data.data_api import CommentDataModule
 
 data_dir = "data/"
 model = CommentClassifier()
-datamodule = CommentDataModule(data_dir=data_dir, batch_size=32, num_workers=4)
+dm = CommentDataModule(data_dir=data_dir, batch_size=1, num_workers=4)
 
 trainer = Trainer(
     max_epochs=30,
@@ -23,6 +23,5 @@ trainer = Trainer(
     # callbacks=[LearningRateMonitor(logging_interval="step"), TQDMProgressBar(refresh_rate=10)],
 )
 
-print("Starting training")
-trainer.fit(model, datamodule)
-trainer.test(model, datamodule)
+trainer.fit(model, dm)
+# trainer.test(model, dm)

@@ -9,7 +9,7 @@ from torchmetrics.functional import accuracy
 class CommentClassifier(LightningModule):
     def __init__(self):
         super().__init__()
-        self.save_hyperparameters()
+        # self.save_hyperparameters()
         self.model = nn.Sequential(
             nn.Linear(300, 1024),
             nn.ReLU(),
@@ -33,10 +33,16 @@ class CommentClassifier(LightningModule):
     def test_step(self, batch, batch_idx):
         self.evaluate(batch, "test")
 
+    def predict_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        preds = torch.argmax(logits, dim=1)
+        return preds
+
     def evaluate(self, batch, stage=None):
         x, y = batch
         logits = self(x)
-        loss = F.nll_loss(logits, y)
+        loss = self.loss_fn(logits, y)
         preds = torch.argmax(logits, dim=1)
         acc = accuracy(preds, y)
 
@@ -45,19 +51,6 @@ class CommentClassifier(LightningModule):
             self.log(f"{stage}_acc", acc, prog_bar=True)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(
-            self.parameters(),
-            lr=self.hparams.lr,
-            momentum=0.9,
-            weight_decay=5e-4,
-        )
-        scheduler_dict = {
-            "scheduler": OneCycleLR(
-                optimizer,
-                0.1,
-                epochs=self.trainer.max_epochs,
-            ),
-            "interval": "step",
-        }
-        return {"optimizer": optimizer, "lr_scheduler": scheduler_dict}
+        optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
+        return {"optimizer": optimizer}
     
