@@ -24,3 +24,4 @@ config: {}
 2023-04-03 12:42:53,889 INFO    MainThread:27595 [wandb_run.py:_redirect():1827] Redirects installed.
 2023-04-03 12:42:53,889 INFO    MainThread:27595 [wandb_init.py:init():732] run started, returning control to user process
 2023-04-03 12:48:27,040 INFO    MainThread:27595 [wandb_run.py:_config_callback():1131] config_cb None None {'cfg': 'cfg/proj1.yaml', 'gpus': 'None', 'num_workers': 8, 'batch_size': 16, 'seed': 1, 'data_dir': 'data/', 'wandb_key': 'a012ea1e8f9db57d84ce1d02c2448e231e2bf452', 'model_name': 'mlp_1k', 'num_classes': 5, 'input_size': 96, 'embedder': 'en_core_web_sm', 'opt': 'adamw', 'weight_decay': 0.01, 'momentum': 0.9, 'epochs': 30, 'sched': 'cosine', 'lr': 0.001, 'warmup_lr': 1e-05, 'min_lr': 5e-05, 'warmup_epochs': 3}
+2023-04-03 12:51:32,100 WARNING MsgRouterThr:27595 [router.py:message_loop():76] message_loop has been closed

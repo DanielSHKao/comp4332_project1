@@ -6,6 +6,8 @@ import numpy as np
 import spacy
 import yaml
 from argparse import Namespace
+import csv
+from ast import literal_eval
 def load_data(split_name='train', columns=['text', 'stars'], folder='./../data'):
     '''
         "split_name" may be set as 'train', 'valid' or 'test' to load the corresponding dataset.
@@ -24,7 +26,17 @@ def load_data(split_name='train', columns=['text', 'stars'], folder='./../data')
         print(f"Failed loading specified columns... Returning all columns from the {split_name} split")
         df = pd.read_csv(f'{folder}/{split_name}.csv')
         return df
-
+def load_preprocess(split_name='train', columns=['text', 'stars'], folder='./../data',embedding='sentence'):
+    
+    if embedding=='sentence':
+        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv',converters=dict(sent_embed=literal_eval))
+        if split_name!="test":
+            df = df.loc[:,columns+['sent_embed']]
+    else:
+        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv',converters=dict(word_embed=literal_eval))
+        if split_name!="test":
+            df = df.loc[:,columns+['word_embed']]
+    return df
 def lower(s):
     """
     :param s: a string.
@@ -129,7 +141,7 @@ class Embedder:
             result.append(self.embedder(token).vector)
         return result
     def sentence_embedding(self,text):
-        return self.embedder(text).vector
+        return self.embedder(text).vector.tolist()
 
 
 def load_cfg(cfg):
@@ -145,3 +157,6 @@ def merge_args_cfg(args, cfg):
     dict = {**dict0, **dict1}
 
     return Namespace(**dict)
+
+def write_to_csv(file,df):
+    df.to_csv(file)

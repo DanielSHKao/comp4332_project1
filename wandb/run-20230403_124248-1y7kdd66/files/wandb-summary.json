@@ -1,1 +1,1 @@
-{"lr-SGD": 0.0009967882199274228, "trainer/global_step": 5499, "_timestamp": 1680540538, "_runtime": 370, "_step": 222, "train_loss": 1.0156790018081665, "epoch": 4, "val_loss": 1.2798731327056885, "val_acc": 0.48350000381469727}
+{"lr-SGD": 5.3211780072577066e-05, "trainer/global_step": 33749, "_timestamp": 1680540688, "_runtime": 520, "_step": 1379, "train_loss": 1.4621397256851196, "epoch": 29, "val_loss": 1.1562777757644653, "val_acc": 0.5274999737739563, "_wandb": {"runtime": 518}}

@@ -3,6 +3,7 @@ model_name: mlp_1k
 num_classes: 5
 input_size: 96
 embedder: en_core_web_sm
+embedding: sentence
 # --------------------------------------
 # Optimizer parameters
 # --------------------------------------

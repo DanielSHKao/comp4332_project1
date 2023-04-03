@@ -25,11 +25,13 @@ def main(args):
     print(model.model)
     
     print("Preparing data......")
+    columns = ['text','stars'] if args.embedding=="sentence" else ['text','stars']
     dm = CommentDataModule(data_dir=args.data_dir, 
-                        columns = ['text','stars'],
+                        columns = columns,
                         batch_size=args.batch_size, 
                         num_workers=args.num_workers,
-                        embedder=args.embedder
+                        embedder=args.embedder,
+                        embedding=args.embedding
                         )
     print("Dataset loaded.")
     print("=========================================================")
