@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from utils.utils import load_data, tokenize, filter_stopwords, lower
 
 class CommentDataset(Dataset):
-    def __init__(self, data_dir, columns=['text','stars'], split_name='train', embedder='en_core_web_sm'):
+    def __init__(self, data_dir, columns=['text','stars'], split_name='train', embedder='en_core_web_sm', **kwargs):
         super().__init__()
         self.data_dir = data_dir
         self.columns = columns
