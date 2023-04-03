@@ -14,6 +14,7 @@ import nltk
 from argparse import ArgumentParser
 from pytorch_lightning.loggers import WandbLogger
 import os
+import wandb
 def main(args):
     nltk.download('stopwords')
     nltk.download('punkt')
