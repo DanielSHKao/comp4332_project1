@@ -29,5 +29,5 @@ class CommentDataset(Dataset):
         y = self.df['stars'][index]
         if self.transform is not None:
             x = self.transform(x)
-        #return x, y
+        #return x, y-1
         return torch.from_numpy(x), y-1

@@ -18,11 +18,12 @@ import wandb
 def main(args):
     nltk.download('stopwords')
     nltk.download('punkt')
+    seed_everything(args.seed)
     print("Preparing model......")
     model = CommentClassifier(num_classes = args.num_classes,hparams= args)
     print("Model constructed.")
     print(model.model)
-
+    
     print("Preparing data......")
     dm = CommentDataModule(data_dir=args.data_dir, 
                         columns = ['text','stars'],
@@ -57,6 +58,7 @@ if __name__ == "__main__":
     parser.add_argument('-g', "--gpus", type=str, default=None, help="0,1")
     parser.add_argument('-n', "--num_workers", type=int, default=8)
     parser.add_argument('-b', "--batch_size", type=int, default=16)
+    parser.add_argument('-s', "--seed", type=int, default=1)
     parser.add_argument("--data_dir", type=str, default="data/")
     
     args = parser.parse_args()
