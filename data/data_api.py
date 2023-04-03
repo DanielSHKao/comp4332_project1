@@ -27,6 +27,3 @@ class CommentDataModule(pl.LightningDataModule):
     
     def test_dataloader(self):
         return DataLoader(self.test_set, batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
-
-    def predict_dataloader(self):
-        return DataLoader(self.mnist_predict, batch_size=self.batch_size)
