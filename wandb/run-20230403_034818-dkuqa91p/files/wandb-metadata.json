@@ -1,0 +1,24 @@
+{
+    "os": "Linux-4.15.0-200-generic-x86_64-with-glibc2.27",
+    "python": "3.9.5",
+    "heartbeatAt": "2023-04-03T07:48:20.306456",
+    "startedAt": "2023-04-03T07:48:18.822001",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 2080 Ti",
+    "gpu_count": 2,
+    "cpu_count": 20,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/daniel/FYT/comp4332/comp4332_project1/main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/DanielSHKao/comp4332_project1",
+        "commit": "c2dde42a247cf2bf866d8e606236d41270b0a64a"
+    },
+    "email": "skao@connect.ust.hk",
+    "root": "/home/daniel/FYT/comp4332/comp4332_project1",
+    "host": "mtrec-System-Product-Name",
+    "username": "daniel",
+    "executable": "/home/daniel/miniconda3/bin/python"
+}

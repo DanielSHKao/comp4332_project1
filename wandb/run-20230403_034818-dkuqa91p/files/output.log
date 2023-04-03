@@ -1,0 +1,23 @@
+
+Validation sanity check:   0%|                                                                                                                            | 0/2 [00:00<?, ?it/s]
+  | Name    | Type             | Params
+---------------------------------------------
+0 | model   | customMLP        | 104 K
+1 | loss_fn | CrossEntropyLoss | 0
+---------------------------------------------
+104 K     Trainable params
+0         Non-trainable params
+104 K     Total params
+0.418     Total estimated model params size (MB)
+/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:623: UserWarning: Checkpoint directory /home/daniel/FYT/comp4332/comp4332_project1/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/data_loading.py:633: UserWarning: Your `val_dataloader` has `shuffle=True`, it is strongly recommended that you turn this off for val/test/predict dataloaders.
+
+
+Epoch 0:  74%|███████████████████████████████████████████████████████████████████████████▉                           | 922/1250 [00:03<00:01, 242.66it/s, loss=1.56, v_num=a91p]
+
+
+
+Epoch 1:  80%|█████████████████████████████████████████████████████████              | 1004/1250 [00:04<00:00, 246.59it/s, loss=1.42, v_num=a91p, val_loss=1.550, val_acc=0.446]
+
+
