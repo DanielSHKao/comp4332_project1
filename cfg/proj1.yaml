@@ -1,0 +1,21 @@
+wandb_key: a012ea1e8f9db57d84ce1d02c2448e231e2bf452
+model_name: mlp_1k
+num_classes: 5
+input_size: 96
+embedder: en_core_web_sm
+# --------------------------------------
+# Optimizer parameters
+# --------------------------------------
+opt: adamw
+weight_decay: 0.01
+momentum: 0.9
+epochs: 30
+#slimming_bn_s: 0.001
+# --------------------------------------
+# Learning rate schedule parameters
+# --------------------------------------
+sched: cosine
+lr: 0.001
+warmup_lr: 0.00001
+min_lr: 0.00005
+warmup_epochs: 3

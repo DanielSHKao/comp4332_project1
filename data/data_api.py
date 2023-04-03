@@ -3,7 +3,6 @@ import torch
 from torch.utils.data import DataLoader
 
 import pytorch_lightning as pl
-
 from data.data import CommentDataset
 import random
 
@@ -18,7 +17,7 @@ class CommentDataModule(pl.LightningDataModule):
     def setup(self, stage: str):
         self.train_set = CommentDataset(self.data_dir, columns=self.columns, split_name='train', embedder= self.embedder)
         self.val_set = CommentDataset(self.data_dir, columns=self.columns, split_name='valid', embedder= self.embedder)
-        self.test_set = CommentDataset(self.data_dir, columns=self.columns, split_name='test', embedder= self.embedder)
+        self.test_set = CommentDataset(self.data_dir, columns=['all'], split_name='test', embedder= self.embedder)
     
     def train_dataloader(self):
         return DataLoader(self.train_set, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True, pin_memory=True)

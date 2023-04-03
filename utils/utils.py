@@ -4,6 +4,8 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords as sw
 import numpy as np
 import spacy
+import yaml
+from argparse import Namespace
 def load_data(split_name='train', columns=['text', 'stars'], folder='./../data'):
     '''
         "split_name" may be set as 'train', 'valid' or 'test' to load the corresponding dataset.
@@ -126,3 +128,20 @@ class Embedder:
         for token in tokens:
             result.append(self.embedder(token).vector)
         return result
+    def sentence_embedding(self,text):
+        return self.embedder(text).vector
+
+
+def load_cfg(cfg):
+    hyp = None
+    if isinstance(cfg, str):
+        with open(cfg, errors='ignore') as f:
+            hyp = yaml.safe_load(f)  # load hyps dict
+    return Namespace(**hyp)
+
+def merge_args_cfg(args, cfg):
+    dict0 = vars(args)
+    dict1 = vars(cfg)
+    dict = {**dict0, **dict1}
+
+    return Namespace(**dict)
