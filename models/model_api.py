@@ -34,21 +34,19 @@ class CommentClassifier(LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        self.evaluate(batch, "val")
-
-    def test_step(self, batch, batch_idx):
-        self.evaluate(batch, "test")
-
-    def evaluate(self, batch, stage=None):
         x, y = batch
         logits = self(x)
         loss = self.loss_fn(logits, y)
         preds = torch.argmax(logits, dim=1)
         acc = accuracy(preds, y)
 
-        if stage:
-            self.log(f"{stage}_loss", loss, prog_bar=True)
-            self.log(f"{stage}_acc", acc, prog_bar=True)
+        self.log("val_loss", loss, prog_bar=True)
+        self.log("val_acc", acc, prog_bar=True)
+
+    def test_step(self, batch, batch_idx):
+        pass
+
+        
 
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(

@@ -1,0 +1,55 @@
+
+Validation sanity check:   0%|                                                                                                                            | 0/2 [00:00<?, ?it/s]
+  | Name    | Type             | Params
+---------------------------------------------
+0 | model   | customMLP        | 104 K
+1 | loss_fn | CrossEntropyLoss | 0
+---------------------------------------------
+104 K     Trainable params
+0         Non-trainable params
+104 K     Total params
+0.418     Total estimated model params size (MB)
+/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:623: UserWarning: Checkpoint directory /home/daniel/FYT/comp4332/comp4332_project1/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/data_loading.py:633: UserWarning: Your `val_dataloader` has `shuffle=True`, it is strongly recommended that you turn this off for val/test/predict dataloaders.
+  rank_zero_warn(
+Traceback (most recent call last):
+  File "/home/daniel/FYT/comp4332/comp4332_project1/main.py", line 66, in <module>
+    main(args)
+  File "/home/daniel/FYT/comp4332/comp4332_project1/main.py", line 51, in main
+    trainer.fit(model, dm)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 737, in fit
+    self._call_and_handle_interrupt(
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 682, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 772, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1194, in _run
+    self._dispatch()
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1274, in _dispatch
+    self.training_type_plugin.start_training(self)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/plugins/training_type/training_type_plugin.py", line 202, in start_training
+    self._results = trainer.run_stage()
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1284, in run_stage
+    return self._run_train()
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1306, in _run_train
+    self._run_sanity_check(self.lightning_module)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1370, in _run_sanity_check
+    self._evaluation_loop.run()
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/loops/base.py", line 145, in run
+    self.advance(*args, **kwargs)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 110, in advance
+    dl_outputs = self.epoch_loop.run(dataloader, dataloader_idx, dl_max_batches, self.num_dataloaders)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/loops/base.py", line 145, in run
+    self.advance(*args, **kwargs)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 122, in advance
+    output = self._evaluation_step(batch, batch_idx, dataloader_idx)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 217, in _evaluation_step
+    output = self.trainer.accelerator.validation_step(step_kwargs)
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/accelerators/accelerator.py", line 236, in validation_step
+    return self.training_type_plugin.validation_step(*step_kwargs.values())
+  File "/home/daniel/miniconda3/lib/python3.9/site-packages/pytorch_lightning/plugins/training_type/training_type_plugin.py", line 219, in validation_step
+    return self.model.validation_step(*args, **kwargs)
+  File "/home/daniel/FYT/comp4332/comp4332_project1/models/model_api.py", line 43, in validation_step
+    if stage:
+NameError: name 'stage' is not defined
