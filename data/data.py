@@ -18,8 +18,9 @@ class CommentDataset(Dataset):
         self.df = load_data(split_name, columns=self.columns, folder=self.data_dir)
         #self.df['tokens'] = self.df['text'].map(tokenize).map(filter_stopwords).map(lower)
         #self.df['vectors'] = self.df['text'].map(self.embedder.word_embedding)
+        print(f"Embedding {split_name} dataset...")
         self.df['vectors'] = self.df['text'].map(self.embedder.sentence_embedding)
-
+        print(f"Done")
 
     def __len__(self):
         return len(self.df)

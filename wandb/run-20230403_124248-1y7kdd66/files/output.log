@@ -1,0 +1,56 @@
+select [text, stars] columns from the train split
+Success
+Embedding train dataset...
+GPU available: True, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/home/daniel/miniconda3/envs/comp4332proj1/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py:1814: PossibleUserWarning: GPU available but not used. Set `accelerator` and `devices` using `Trainer(accelerator='gpu', devices=2)`.
+  rank_zero_warn(
+Global seed set to 1
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=gloo
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+Done
+select [text, stars] columns from the valid split
+Success
+Embedding valid dataset...
+Done
+select [all] columns from the test split
+Failed loading specified columns... Returning all columns from the test split
+Embedding test dataset...
+Done
+Sanity Checking: 0it [00:00, ?it/s]
+/home/daniel/miniconda3/envs/comp4332proj1/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:611: UserWarning: Checkpoint directory /home/daniel/FYT/comp4332/comp4332_project1/checkpoints exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+  | Name    | Type               | Params
+-----------------------------------------------
+0 | model   | customMLP          | 104 K
+1 | loss_fn | CrossEntropyLoss   | 0
+2 | metric  | MulticlassAccuracy | 0
+-----------------------------------------------
+104 K     Trainable params
+0         Non-trainable params
+104 K     Total params
+0.418     Total estimated model params size (MB)
+/home/daniel/miniconda3/envs/comp4332proj1/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:495: PossibleUserWarning: Your `val_dataloader`'s sampler has shuffling enabled, it is strongly recommended that you turn shuffling off for val/test/predict dataloaders.
+
+
+
+Epoch 0:  79%|█████████████████████████████████████████████████████████████████████████████████▊                     | 993/1250 [00:04<00:01, 208.40it/s, loss=1.57, v_num=dd66]
+
+
+
+Epoch 1:  85%|████████████████████████████████████████████████████████████▏          | 1059/1250 [00:05<00:00, 211.61it/s, loss=1.34, v_num=dd66, val_loss=1.550, val_acc=0.443]
+
+
+
+Epoch 2:  80%|█████████████████████████████████████████████████████████              | 1004/1250 [00:04<00:01, 205.04it/s, loss=1.32, v_num=dd66, val_loss=1.380, val_acc=0.446]
+
+
+
+Epoch 3:  74%|█████████████████████████████████████████████████████▌                  | 929/1250 [00:04<00:01, 204.23it/s, loss=1.26, v_num=dd66, val_loss=1.320, val_acc=0.455]
+
+

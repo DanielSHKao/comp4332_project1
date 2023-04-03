@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import pytorch_lightning as pl
 from pytorch_lightning import LightningModule
-from torchmetrics.functional import accuracy
+from torchmetrics import Accuracy
 from timm.models import create_model
 from timm.scheduler import create_scheduler
 from timm.optim import create_optimizer
@@ -22,7 +22,7 @@ class CommentClassifier(LightningModule):
             num_classes=num_classes,
         )
         self.loss_fn = nn.CrossEntropyLoss()
-
+        self.metric = Accuracy(task="multiclass", num_classes=5)
     def forward(self, x):
         return self.model(x)
 
@@ -38,7 +38,7 @@ class CommentClassifier(LightningModule):
         logits = self(x)
         loss = self.loss_fn(logits, y)
         preds = torch.argmax(logits, dim=1)
-        acc = accuracy(preds, y)
+        acc = self.metric(preds, y)
 
         self.log("val_loss", loss, prog_bar=True)
         self.log("val_acc", acc, prog_bar=True)
