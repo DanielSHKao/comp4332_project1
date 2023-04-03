@@ -31,7 +31,6 @@ class CommentDataset(Dataset):
             print(f"Done")
         #self.df['tokens'] = self.df['text'].map(tokenize).map(filter_stopwords).map(lower)
         #self.df['vectors'] = self.df['text'].map(self.embedder.word_embedding)
-        print(self.df.columns)
 
     def __len__(self):
         return len(self.df)
