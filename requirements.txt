@@ -1,11 +1,12 @@
 # conda create -n comp4332proj1 python=3.9.5
 # conda activate comp4332proj1
 # pip install -r requirements.txt
+# python -m spacy download en_core_web_sm
 
 # ----------------------------------------
 torch==1.12.0+cu102
-lightning==1.5.6
-lightning-bolts==0.4.0
+pytorch-lightning==1.6.5
+lightning-bolts==0.5.0
 timm==0.4.12
 wandb==0.12.21
 numpy==1.23.3
