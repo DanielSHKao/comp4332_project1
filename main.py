@@ -13,7 +13,7 @@ from utils.utils import load_cfg, merge_args_cfg
 import nltk
 from argparse import ArgumentParser
 from pytorch_lightning.loggers import WandbLogger
-
+import os
 def main(args):
     nltk.download('stopwords')
     nltk.download('punkt')
