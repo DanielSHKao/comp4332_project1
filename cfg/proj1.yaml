@@ -10,7 +10,7 @@ embedding: sentence
 # --------------------------------------
 # Knowledge Distillation
 # --------------------------------------
-distillation_type: hard
+distillation_type: soft #none/soft/hard
 teacher_model: mlp_1k_e30
 distillation_alpha: 0.5
 distillation_tau: 1

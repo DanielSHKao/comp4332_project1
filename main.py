@@ -55,11 +55,11 @@ def main(args):
 
     trainer.fit(model, dm)
     v=0
-    name = f"pretrain\\{args.model_name}_{distillation}_e{args.epochs}.pt"
+    name = f"pretrain\\{args.model_name}_{distillation_type}_e{args.epochs}.pt"
     existing = glob.glob("pretrain\\*")
     while name in existing:
         v+=1
-        name = f"pretrain\\{args.model_name}_{distillation}_e{args.epochs}_v{v}.pt"
+        name = f"pretrain\\{args.model_name}_{distillation_type}_e{args.epochs}_v{v}.pt"
     torch.save(model.model,name)
     # trainer.test(model, dm)
 if __name__ == "__main__":
