@@ -45,7 +45,8 @@ def main(args):
                                       ) 
     trainer = Trainer(
         max_epochs=args.epochs,
-        gpus=args.gpus,
+        accelerator='gpu',
+        devices=args.gpus,
         strategy='ddp',
         callbacks=[checkpoint_callback,LearningRateMonitor(logging_interval="step")],
         logger=wandb_logger

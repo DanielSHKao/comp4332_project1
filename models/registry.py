@@ -18,3 +18,7 @@ def lstm_256(input_size,num_classes,**kwargs):
 @register_model
 def mlp_1k(input_size,num_classes, **kwargs):
     return customMLP(input_dim=input_size,hidden_feat=1024, output_dim=num_classes, activation=nn.ReLU())
+
+@register_model
+def dnn4_256(input_size,num_classes, **kwargs):
+    return customDNN(input_dim=input_size,hidden_feat=256, output_dim=num_classes, activation=nn.ReLU())

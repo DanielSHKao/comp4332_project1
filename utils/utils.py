@@ -160,3 +160,4 @@ def merge_args_cfg(args, cfg):
 
 def write_to_csv(file,df):
     df.to_csv(file)
+
