@@ -21,7 +21,26 @@ class CommentClassifier(LightningModule):
             input_size=hparams.input_size,
             num_classes=num_classes,
         )
-        self.loss_fn = nn.CrossEntropyLoss()
+        
+        self.eval_criterion = nn.CrossEntropyLoss()
+        if hparams.distillation_type == 'none':
+            self.train_criterion = customCrossEntropyLoss()
+        else:
+            # assert hparams.teacher_path, 'need to specify teacher-path when using distillation'
+            print(f"Creating teacher model: {hparams.teacher_model}")
+            try:
+                teacher_model = torch.load(f"./pretrain/{hparams.teacher_model}.pt")
+            except:
+                raise AttributeError("Teacher model does not exist.")
+            for param in teacher_model.parameters():
+                param.requires_grad = False
+            teacher_model.eval()
+            self.train_criterion = DistillationLoss(nn.CrossEntropyLoss(),
+                                              teacher_model,
+                                              hparams.distillation_type,
+                                              hparams.distillation_alpha,
+                                              hparams.distillation_tau
+                                              )
         self.metric = Accuracy(task="multiclass", num_classes=5)
     def forward(self, x):
         return self.model(x)
@@ -29,14 +48,14 @@ class CommentClassifier(LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
         logits = self.forward(x)
-        loss = self.loss_fn(logits, y)
+        loss = self.train_criterion(x, logits, y)
         self.log("train_loss", loss)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
         logits = self(x)
-        loss = self.loss_fn(logits, y)
+        loss = self.eval_criterion(logits, y)
         preds = torch.argmax(logits, dim=1)
         acc = self.metric(preds, y)
 

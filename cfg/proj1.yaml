@@ -2,11 +2,18 @@
 # Training parameters
 # --------------------------------------
 wandb_key: a012ea1e8f9db57d84ce1d02c2448e231e2bf452
-model_name: dnn4_256
+model_name: mlp_1k
 num_classes: 5
 input_size: 96
 embedder: en_core_web_sm
 embedding: sentence
+# --------------------------------------
+# Knowledge Distillation
+# --------------------------------------
+distillation_type: hard
+teacher_model: mlp_1k_e30
+distillation_alpha: 0.5
+distillation_tau: 1
 # --------------------------------------
 # Testing parameters
 # --------------------------------------
@@ -17,7 +24,7 @@ test_models: all
 opt: adamw
 weight_decay: 0.01
 momentum: 0.9
-epochs: 25
+epochs: 30
 #slimming_bn_s: 0.001
 # --------------------------------------
 # Learning rate schedule parameters

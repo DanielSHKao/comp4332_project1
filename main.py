@@ -15,6 +15,7 @@ from argparse import ArgumentParser
 from pytorch_lightning.loggers import WandbLogger
 import os
 import wandb
+import glob
 def main(args):
     nltk.download('stopwords')
     nltk.download('punkt')
@@ -53,7 +54,13 @@ def main(args):
     )
 
     trainer.fit(model, dm)
-    torch.save(model.model,f"pretrain/{args.model_name}_e{args.epochs}.pt")
+    v=0
+    name = f"pretrain\\{args.model_name}_{distillation}_e{args.epochs}.pt"
+    existing = glob.glob("pretrain\\*")
+    while name in existing:
+        v+=1
+        name = f"pretrain\\{args.model_name}_{distillation}_e{args.epochs}_v{v}.pt"
+    torch.save(model.model,name)
     # trainer.test(model, dm)
 if __name__ == "__main__":
     parser = ArgumentParser()
