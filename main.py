@@ -26,7 +26,7 @@ def main(args):
     print(model.model)
     
     print("Preparing data......")
-    columns = ['text','stars'] if args.embedding=="sentence" else ['text','stars']
+    columns = ['text','stars']
     dm = CommentDataModule(data_dir=args.data_dir, 
                         columns = columns,
                         batch_size=args.batch_size, 

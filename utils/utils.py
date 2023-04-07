@@ -32,10 +32,16 @@ def load_preprocess(split_name='train', columns=['text', 'stars'], folder='./../
         df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv',converters=dict(sent_embed=literal_eval))
         if split_name!="test":
             df = df.loc[:,columns+['sent_embed']]
-    else:
-        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv',converters=dict(word_embed=literal_eval))
+    elif embedding=='word':
+        print(f'Reading {split_name} csv file...')
+        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv')
         if split_name!="test":
             df = df.loc[:,columns+['word_embed']]
+    else:
+        print(f'Reading {split_name} csv file...')
+        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv')
+        if split_name!="test":
+            df = df.loc[:,columns+['sub_embed']]
     return df
 def lower(s):
     """
@@ -138,10 +144,15 @@ class Embedder:
     def word_embedding(self,tokens):
         result = list()
         for token in tokens:
-            result.append(self.embedder(token).vector)
+            result.append(self.embedder(token).vector.tolist())
         return result
     def sentence_embedding(self,text):
         return self.embedder(text).vector.tolist()
+    def subsentence_embedding(self,tokens):
+        sublen = len(tokens)//5
+        subsentences = [' '.join(tokens[i*sublen:(i+1)*sublen]) for i in range(4)]
+        subsentences.append(' '.join(tokens[(4)*sublen:]))
+        result = [self.embedder(subsen).vector.tolist() for subsen in subsentences]
 
 
 def load_cfg(cfg):
