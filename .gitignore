@@ -3,4 +3,4 @@ __pycache__/
 lightning_logs/
 wandb/
 checkpoints/
-data/*_word.csv
+data/*_*.csv

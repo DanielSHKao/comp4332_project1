@@ -8,6 +8,7 @@ import yaml
 from argparse import Namespace
 import csv
 from ast import literal_eval
+import nltk.data
 def load_data(split_name='train', columns=['text', 'stars'], folder='./../data'):
     '''
         "split_name" may be set as 'train', 'valid' or 'test' to load the corresponding dataset.
@@ -37,11 +38,16 @@ def load_preprocess(split_name='train', columns=['text', 'stars'], folder='./../
         df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv')
         if split_name!="test":
             df = df.loc[:,columns+['word_embed']]
+    elif embedding=='subtext':
+        print(f'Reading {split_name} csv file...')
+        df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv')
+        if split_name!="test":
+            df = df.loc[:,columns+['subtext_embed']]
     else:
         print(f'Reading {split_name} csv file...')
         df=pd.read_csv(f'{folder}/{split_name}_{embedding}.csv')
         if split_name!="test":
-            df = df.loc[:,columns+['sub_embed']]
+            df = df.loc[:,columns+['subsentence_embed']]
     return df
 def lower(s):
     """
@@ -69,7 +75,6 @@ def tokenize(text):
     Output: ['Text', 'mining', 'is', 'to', 'identify', 'useful', 'information', '.']
     """
     return nltk.word_tokenize(text)
-
 
 def stem(tokens):
     """
@@ -139,20 +144,40 @@ def get_onehot_vector(feats, feats_dict):
     return vector
 
 class Embedder:
-    def __init__(self,embedder):
+    def __init__(self,embedder,tokenizer):
         self.embedder=spacy.load(embedder)
-    def word_embedding(self,tokens):
-        result = list()
+        self.tokenizer=tokenizer
+    def word_embedding(self,text):
+        tokens = lower(filter_stopwords(tokenize(text)))
+        result = np.zeros((64,96))
+        i=0
         for token in tokens:
-            result.append(self.embedder(token).vector.tolist())
-        return result
+            if i<64:
+                result[i]=(self.embedder(token).vector.tolist())
+            else:
+                break
+            i+=1
+        return result.tolist()
     def sentence_embedding(self,text):
         return self.embedder(text).vector.tolist()
-    def subsentence_embedding(self,tokens):
-        sublen = len(tokens)//5
-        subsentences = [' '.join(tokens[i*sublen:(i+1)*sublen]) for i in range(4)]
-        subsentences.append(' '.join(tokens[(4)*sublen:]))
+    def subsentence_embedding(self,text):
+        tokens = tokenize(text)
+        sublen = len(tokens)//10
+        subsentences = [' '.join(tokens[i*sublen:(i+1)*sublen]) for i in range(9)]
+        subsentences.append(' '.join(tokens[(9)*sublen:]))
         result = [self.embedder(subsen).vector.tolist() for subsen in subsentences]
+        return result
+    def subtext_embedding(self,text):
+        sentences = self.tokenizer.tokenize(text)
+        result = np.zeros((10,96))
+        i=0
+        for s in sentences:
+            if i<10:
+                result[i]=(self.embedder(s).vector.tolist())
+            else:
+                break
+            i+=1
+        return result.tolist()
 
 
 def load_cfg(cfg):
@@ -172,3 +197,5 @@ def merge_args_cfg(args, cfg):
 def write_to_csv(file,df):
     df.to_csv(file)
 
+def write_to_folder(dir,df):
+    pass

@@ -8,12 +8,14 @@ import pytorch_lightning as pl
 from torch.utils.data import Dataset
 from utils.utils import *
 from ast import literal_eval
+import nltk
+import torch.nn as nn
 class CommentDataset(Dataset):
     def __init__(self, data_dir, columns=['text','stars'], split_name='train', embedder='en_core_web_sm', embedding='sentence', transform=None,**kwargs):
         super().__init__()
         self.data_dir = data_dir
         self.columns = columns
-        embedder = Embedder(embedder)
+        embedder = Embedder(embedder, nltk.data.load('tokenizers/punkt/english.pickle'))
         self.transform = transform
         if embedding=='sentence':
             self.key = 'sent_embed'
@@ -21,8 +23,11 @@ class CommentDataset(Dataset):
         elif embedding=='word':
             self.key = 'word_embed'
             embedding_method = embedder.word_embedding
+        elif embedding=='subtext':
+            self.key = 'subtext_embed'
+            embedding_method = embedder.subtext_embedding
         else:
-            self.key = 'sub_embed'
+            self.key = 'subsentence_embed'
             embedding_method = embedder.subsentence_embedding
 
         try:

@@ -6,7 +6,7 @@ class customCrossEntropyLoss(torch.nn.Module):
     def __init__(self):
         super().__init__()
     def forward(self, inputs, outputs, labels):
-        return nn.CrossEntropyLoss(outputs,labels)
+        return nn.CrossEntropyLoss()(outputs,labels)
 class DistillationLoss(torch.nn.Module):
     """
     This module wraps a standard criterion and adds an extra knowledge distillation loss by
