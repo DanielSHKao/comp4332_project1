@@ -2,16 +2,17 @@
 # Training parameters
 # --------------------------------------
 wandb_key: a012ea1e8f9db57d84ce1d02c2448e231e2bf452
-model_name: lstm3_1k
+model_name: lstm2_512
 num_classes: 5
 input_size: 96
 embedder: en_core_web_sm
-embedding: subsentence #sentence/word/subsentence/subtext
+embedding: word #sentence/word/subsentence/subtext
+max_length: 128
 # --------------------------------------
 # Knowledge Distillation
 # --------------------------------------
 distillation_type: none #none/soft/hard
-teacher_model: mlp_1k_e30
+teacher_model: lstm2_1k_none_e40_v1
 distillation_alpha: 0.5
 distillation_tau: 1
 # --------------------------------------
@@ -23,14 +24,14 @@ test_models: all
 # --------------------------------------
 opt: adamw
 weight_decay: 0.01
-momentum: 0.9
-epochs: 40
+#momentum: 0.9
+epochs: 50
 #slimming_bn_s: 0.001
 # --------------------------------------
 # Learning rate schedule parameters
 # --------------------------------------
 sched: cosine
-lr: 0.001
-warmup_lr: 0.00001
-min_lr: 0.00005
+lr: 0.01
+warmup_lr: 0.005
+min_lr: 0.0005
 warmup_epochs: 5

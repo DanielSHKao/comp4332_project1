@@ -1,7 +1,7 @@
 # conda create -n comp4332proj1 python=3.9.5
 # conda activate comp4332proj1
 # pip install -r requirements.txt
-
+# pip install -U scikit-learn
 # ----------------------------------------
 torch==1.12.0+cu102
 pytorch-lightning==1.6.5

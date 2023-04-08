@@ -15,7 +15,6 @@ from argparse import ArgumentParser
 from pytorch_lightning.loggers import WandbLogger
 import os
 import wandb
-import glob
 def main(args):
     nltk.download('stopwords')
     nltk.download('punkt')
@@ -32,7 +31,8 @@ def main(args):
                         batch_size=args.batch_size, 
                         num_workers=args.num_workers,
                         embedder=args.embedder,
-                        embedding=args.embedding
+                        embedding=args.embedding,
+                        max_length=args.max_length
                         )
     print("Dataset loaded.")
     print("=========================================================")
@@ -50,16 +50,14 @@ def main(args):
         devices=args.gpus,
         strategy='ddp',
         callbacks=[checkpoint_callback,LearningRateMonitor(logging_interval="step")],
-        logger=wandb_logger
+        logger=wandb_logger,
     )
-
     trainer.fit(model, dm)
     v=0
-    name = f"pretrain\\{args.model_name}_{distillation_type}_e{args.epochs}.pt"
-    existing = glob.glob("pretrain\\*")
-    while name in existing:
+    name = f"pretrain/{args.embedding}_{args.model_name}_{args.distillation_type}_e{args.epochs}.pt"
+    while os.path.exists(name):
         v+=1
-        name = f"pretrain\\{args.model_name}_{distillation_type}_e{args.epochs}_v{v}.pt"
+        name = f"pretrain/{args.embedding}_{args.model_name}_{args.distillation_type}_e{args.epochs}_v{v}.pt"
     torch.save(model.model,name)
     # trainer.test(model, dm)
 if __name__ == "__main__":

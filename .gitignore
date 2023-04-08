@@ -4,3 +4,6 @@ lightning_logs/
 wandb/
 checkpoints/
 data/*_*.csv
+data/word_embed/
+pretrain/
+word_embed.tar.gz

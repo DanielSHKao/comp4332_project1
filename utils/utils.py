@@ -149,7 +149,7 @@ class Embedder:
         self.tokenizer=tokenizer
     def word_embedding(self,text):
         tokens = lower(filter_stopwords(tokenize(text)))
-        result = np.zeros((64,96))
+        result = np.zeros((128,96))
         i=0
         for token in tokens:
             if i<64:
@@ -165,8 +165,13 @@ class Embedder:
         sublen = len(tokens)//10
         subsentences = [' '.join(tokens[i*sublen:(i+1)*sublen]) for i in range(9)]
         subsentences.append(' '.join(tokens[(9)*sublen:]))
-        result = [self.embedder(subsen).vector.tolist() for subsen in subsentences]
-        return result
+        result = np.zeros((10,96))
+        for i in range(10):
+            v=(self.embedder(subsentences[i]).vector.tolist())
+            if len(v)==0:
+                v=[0]*96
+            result[i]= v
+        return result.tolist()
     def subtext_embedding(self,text):
         sentences = self.tokenizer.tokenize(text)
         result = np.zeros((10,96))
@@ -197,5 +202,3 @@ def merge_args_cfg(args, cfg):
 def write_to_csv(file,df):
     df.to_csv(file)
 
-def write_to_folder(dir,df):
-    pass

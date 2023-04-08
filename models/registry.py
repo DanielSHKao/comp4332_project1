@@ -24,9 +24,39 @@ def dnn4_256(input_size,num_classes, **kwargs):
     return customDNN(input_dim=input_size,hidden_feat=256, output_dim=num_classes, activation=nn.ReLU())
 
 @register_model
-def lstm3_256(input_size,num_classes, **kwargs):
-    return customLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes)
+def lstm3_256(input_size,num_classes, max_length,**kwargs):
+    return customLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes,depth=2)
 
 @register_model
-def lstm3_1k(input_size,num_classes, **kwargs):
-    return customLSTM(input_size=input_size, hidden_size=1024, num_classes=num_classes)
+def lstm2_256(input_size,num_classes, max_length,**kwargs):
+    return customLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes,depth=1)
+@register_model
+def lstm2_512(input_size,num_classes, max_length,**kwargs):
+    return customLSTM(input_size=input_size, hidden_size=512, num_classes=num_classes,depth=1)
+@register_model
+def lstm3_1k(input_size,num_classes, max_length,**kwargs):
+    return customLSTM(input_size=input_size, hidden_size=1024, num_classes=num_classes,depth=2)
+
+@register_model
+def lstm2_1k(input_size,num_classes, max_length,**kwargs):
+    return customLSTM(input_size=input_size, hidden_size=1024, num_classes=num_classes,depth=1)
+
+@register_model
+def m2mlstm3_256(input_size,num_classes,max_length, **kwargs):
+    return m2mLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes,depth=2,max_length=max_length)
+
+@register_model
+def m2mlstm3_512(input_size,num_classes, max_length,**kwargs):
+    return m2mLSTM(input_size=input_size, hidden_size=512, num_classes=num_classes,depth=2,max_length=max_length)
+
+@register_model
+def m2mlstm2_512(input_size,num_classes, max_length,**kwargs):
+    return m2mLSTM(input_size=input_size, hidden_size=512, num_classes=num_classes,depth=1,max_length=max_length)
+
+@register_model
+def bilstm3_256(input_size,num_classes,max_length, **kwargs):
+    return biLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes,depth=2,max_length=max_length)
+
+@register_model
+def bilstm2_256(input_size,num_classes, max_length,**kwargs):
+    return biLSTM(input_size=input_size, hidden_size=256, num_classes=num_classes,depth=1,max_length=max_length)

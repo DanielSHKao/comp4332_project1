@@ -11,10 +11,13 @@ from ast import literal_eval
 import nltk
 import torch.nn as nn
 class CommentDataset(Dataset):
-    def __init__(self, data_dir, columns=['text','stars'], split_name='train', embedder='en_core_web_sm', embedding='sentence', transform=None,**kwargs):
+    def __init__(self, data_dir, columns=['text','stars'], split_name='train', embedder='en_core_web_sm', embedding='sentence', max_length=128,transform=None,**kwargs):
         super().__init__()
         self.data_dir = data_dir
         self.columns = columns
+        self.embedding = embedding
+        self.split_name = split_name
+        self.max_length=max_length
         embedder = Embedder(embedder, nltk.data.load('tokenizers/punkt/english.pickle'))
         self.transform = transform
         if embedding=='sentence':
@@ -31,16 +34,24 @@ class CommentDataset(Dataset):
             embedding_method = embedder.subsentence_embedding
 
         try:
-            self.df = load_preprocess(split_name,columns=columns,folder=data_dir,embedding=embedding)
-            print(f"Use pre-process embedding vectors for {split_name} dataset.")
-            self.vectors = self.df[self.key]
+            if embedding!='word':
+                self.df = load_preprocess(split_name,columns=columns,folder=data_dir,embedding=embedding)
+                print(f"Use pre-process embedding vectors for {split_name} dataset.")
+                self.vectors = self.df[self.key]
+            else:
+                self.df = load_data(split_name, columns=columns, folder=data_dir)
         except:
             self.df = load_data(split_name, columns=columns, folder=data_dir)
             print(f"Embedding {split_name} dataset...")
-            self.df[self.key] = self.df['text'].map(embedding_method)
-            self.vectors = self.df[self.key]
-
-            write_to_csv(f'{data_dir}/{split_name}_{embedding}.csv',self.df)
+            if embedding!='word':
+                self.df[self.key] = self.df['text'].map(embedding_method)
+                self.vectors = self.df[self.key]
+                write_to_csv(f'{data_dir}/{split_name}_{embedding}.csv',self.df)
+            else:
+                for i,v in self.df.iterrows():
+                    v_embed = v
+                    v_embed[self.key] = embedding_method(v['text'])
+                    v_embed.to_pickle(f"data/word_embed/{split_name}/{i}.csv")
             print(f"Done")
         #self.df['tokens'] = self.df['text'].map(tokenize).map(filter_stopwords).map(lower)
         #self.df['vectors'] = self.df['text'].map(self.embedder.word_embedding)
@@ -49,11 +60,19 @@ class CommentDataset(Dataset):
         return len(self.df)
     
     def __getitem__(self, index):
-        x = self.vectors[index]
-        if type(x)==str:
-            x = literal_eval(x)
-        y = self.df['stars'][index]
+        if self.embedding!='word':
+            x = self.vectors[index]
+            if type(x)==str:
+                x = literal_eval(x)
+            y = self.df['stars'][index]
+        else:
+            row = pd.read_pickle(f"{self.data_dir}/word_embed/{self.split_name}/{index}.csv")
+            x = row[self.key][:self.max_length]
+            if type(x)==str:
+                x = literal_eval(x)
+            y = row['stars']
         if self.transform is not None:
             x = self.transform(x)
+        
         #return x, y-1
         return torch.tensor(x).float(), y-1 

@@ -10,16 +10,18 @@ from timm.scheduler import create_scheduler
 from timm.optim import create_optimizer
 from pl_bolts.optimizers.lr_scheduler import LinearWarmupCosineAnnealingLR
 from utils.loss import *
-
+from utils.metric import *
 
 class CommentClassifier(LightningModule):
     def __init__(self,num_classes, hparams):
         super().__init__()
         self.save_hyperparameters(hparams)
+        self.lr = hparams.lr
         self.model = create_model(
             hparams.model_name,
             input_size=hparams.input_size,
             num_classes=num_classes,
+            max_length=hparams.max_length
         )
         
         self.eval_criterion = nn.CrossEntropyLoss()
@@ -41,7 +43,10 @@ class CommentClassifier(LightningModule):
                                               hparams.distillation_alpha,
                                               hparams.distillation_tau
                                               )
-        self.metric = Accuracy(task="multiclass", num_classes=5)
+        self.acc=Accuracy(task="multiclass", num_classes=5)
+        self.metrics = {#'acc': Accuracy(task="multiclass", num_classes=5),
+                        'micro_f1': MicroF1,
+                        'macro_f1': MacroF1 }
     def forward(self, x):
         return self.model(x)
 
@@ -57,11 +62,12 @@ class CommentClassifier(LightningModule):
         logits = self(x)
         loss = self.eval_criterion(logits, y)
         preds = torch.argmax(logits, dim=1)
-        acc = self.metric(preds, y)
-
+        acc = self.acc(preds,y)
         self.log("val_loss", loss, prog_bar=True)
         self.log("val_acc", acc, prog_bar=True)
-
+        for name,metric in self.metrics.items():
+            score = metric(preds,y)
+            self.log(f"val_{name}",score,prog_bar=True)
     def test_step(self, batch, batch_idx):
         pass
 
@@ -70,7 +76,7 @@ class CommentClassifier(LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.SGD(
             self.parameters(),
-            lr=self.hparams.lr,
+            lr=self.lr,
             momentum=0.9,
             weight_decay=5e-4,
         )
