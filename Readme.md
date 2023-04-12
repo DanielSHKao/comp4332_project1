@@ -1,6 +1,6 @@
-#COMP4332 Project 1 (SpaCy + LSTM)
+# COMP4332 Project 1 (SpaCy + LSTM)
 This repository includes a pipeline using SpaCy module for string embedding and train models based on different shapes of embedded features. 
-##Quickstart
+## Quickstart
 Create an new conda virtual environment 
 ```
 conda create -n fasternet python=3.9.12 -y
@@ -21,3 +21,5 @@ To adjust the batch size or gpu index, please refer to the following command
 ```
 python main.py -b 32 -g 0,1
 ```
+We provide four types of embedding methods, including 'word', 'sentence', 'subtext', and 'subsentence'. 
+Available models can be found in `models/registry.py`.
