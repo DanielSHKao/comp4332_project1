@@ -1,7 +1,7 @@
 # --------------------------------------
 # Training parameters
 # --------------------------------------
-wandb_key: a012ea1e8f9db57d84ce1d02c2448e231e2bf452
+#wandb_key: xxxxxxxxxxxxxxxx #use your wandb API key to log history
 model_name: lstm2_512
 num_classes: 5
 input_size: 96

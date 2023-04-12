@@ -36,7 +36,7 @@ def main(args):
                         )
     print("Dataset loaded.")
     print("=========================================================")
-    wandb_logger = WandbLogger(name=f"{args.model_name}",project="COMP4332 Project1")
+    #wandb_logger = WandbLogger(name=f"{args.model_name}",project="COMP4332 Project1")
     checkpoint_callback = ModelCheckpoint(dirpath="checkpoints", # where the ckpt will be saved
                                       filename=f"{args.model_name}_e{args.epochs}_best", # the name of the best ckpt
                                       save_top_k=1, # save only the best ckpt
@@ -50,7 +50,7 @@ def main(args):
         devices=args.gpus,
         strategy='ddp',
         callbacks=[checkpoint_callback,LearningRateMonitor(logging_interval="step")],
-        logger=wandb_logger,
+        #logger=wandb_logger,
     )
     trainer.fit(model, dm)
     v=0
@@ -72,5 +72,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     cfg = load_cfg(args.cfg)
     args = merge_args_cfg(args, cfg)
-    os.environ["WANDB_API_KEY"] = args.wandb_key
+    #os.environ["WANDB_API_KEY"] = args.wandb_key
     main(args)
