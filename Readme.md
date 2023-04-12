@@ -12,6 +12,14 @@ git clone https://github.com/DanielSHKao/comp4332_project1.git
 pip install -r requirements.txt
 pip install -U scikit-learn
 ```
+Create path for embedded features following the structure
+```
+/data/
+    /word_embed/
+        /train/
+        /valid/
+        /test/
+```
 Train model with command
 ```
 python main.py
