@@ -10,7 +10,6 @@ Clone this repo and install the required packages
 ```
 git clone https://github.com/DanielSHKao/comp4332_project1.git
 pip install -r requirements.txt
-pip install -U scikit-learn
 ```
 Create path for embedded features following the structure
 ```
